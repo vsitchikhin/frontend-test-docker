@@ -1,8 +1,17 @@
 <template>
   <div class="comment-card">
-    <div class="comment-card__name">{{ comment?.name }}</div>
-    <div class="comment-card__message">{{ comment?.text }}</div>
-    <div class="comment-card__date">{{ comment?.date }}</div>
+    <div class="comment-card__text-container">
+      <div class="comment-card__text">Имя</div>
+      <div class="comment-card__text">{{ comment?.name }}</div>
+    </div>
+    <div class="comment-card__text-container">
+      <div class="comment-card__message">Сообщение</div>
+      <div class="comment-card__message">{{ comment?.text }}</div>
+    </div>
+    <div class="comment-card__text-container">
+      <div class="comment-card__text">Дата</div>
+      <div class="comment-card__text">{{ comment?.date }}</div>
+    </div>
   </div>
 </template>
 
@@ -23,10 +32,23 @@ export default {
 <style scoped>
 .comment-card {
   display: flex;
-  width: 100%;
+  justify-content: space-between;
+  width: 70vw;
   padding: 8px 20px;
-  border: 1px solid grey;
+  border: 1px solid red;
   border-radius: 8px;
   gap: 12px;
+  align-items: center;
+}
+
+.comment-card__text-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.comment-card__message {
+  width: 50vw;
+  text-align: left;
 }
 </style>

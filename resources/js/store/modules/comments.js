@@ -174,6 +174,10 @@ export default {
 
     changeSelectedDirection(ctx, direction) {
       ctx.getters.selectedDirection = direction;
-    }
+    },
+
+    setSelectedComment(ctx, comment) {
+      ctx.commit('SET_COMMENT_PAYLOAD', comment)
+    },
   },
 }
