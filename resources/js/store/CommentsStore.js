@@ -1,17 +1,11 @@
-import { createApp } from 'vue';
+import Vue from 'vue';
 import Vuex from 'vuex';
+import comments from './modules/comments';
 
-const commentsStore = new Vuex.Store({
-  state() {
-    return {
-      comments: null,
-    }
-  },
+Vue.use(Vuex);
 
-  mutations: {
-    loadComments() { },
-    createComment() { },
-    patchComment() { },
-    deleteComment() { },
+export const CommentsStore = new Vuex.Store({
+  modules: {
+    comments,
   }
 })

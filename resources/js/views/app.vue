@@ -1,18 +1,18 @@
 <template>
-    <div>
-        {{message}}
-    </div>
+  <div>
+    <CommentsPage />
+  </div>
 </template>
+
 <script>
+import CommentsPage from "../pages/index.vue";
 const default_layout = "default";
 
-
 export default {
-    computed: {},
-    data() {
-        return {
-            message:'Hello World'
-        }
-    }
+  components: { CommentsPage },
+  computed: {},
+  data() {
+    return {};
+  },
 };
 </script>

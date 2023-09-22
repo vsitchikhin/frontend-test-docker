@@ -20,7 +20,6 @@
         "vue": "^2.6.12",
         "vue-axios": "^3.2.4",
         "vue-loader": "^15.9.5",
-        "vue-router": "^3.5.1",
         "vue-template-compiler": "^2.6.12",
         "vue2-datepicker": "^3.9.0",
         "vuex": "3.6.1"
