@@ -1,7 +1,11 @@
 <template>
   <div class="comments-list">
-    <div class="comments-list__cards-container">
-      <CommentCard v-for="item in comments" :key="item.id" :comment="item" />
+    <div
+      v-for="item in comments"
+      :key="item.id"
+      class="comments-list__cards-container"
+    >
+      <CommentCard :comment="item" />
       <div class="comments-list__buttons">
         <button
           class="comments-list__button"

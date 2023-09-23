@@ -1,7 +1,7 @@
 <template>
   <form class="comment-form">
-    <label for="name">
-      Имя пользователя
+    <label for="name" class="comment-form__label">
+      <span class="comment-form__label-text">Имя пользователя</span>
       <input
         v-model="name"
         type="text"
@@ -10,19 +10,19 @@
         class="comment-form__input"
       />
     </label>
-    <label for="message">
-      Текст комментария
+    <label for="text" class="comment-form__label">
+      <span class="comment-form__label-text">Текст комментария</span>
       <textarea
-        v-model="message"
-        rows="4"
-        cols="20"
-        id="message"
-        name="message"
-        class="comment-form__message"
+        v-model="text"
+        rows="6"
+        cols="40"
+        id="text"
+        name="text"
+        class="comment-form__text"
       />
     </label>
-    <label for="date">
-      Дата
+    <label for="date" class="comment-form__label">
+      <span class="comment-form__label-text">Дата</span>
       <DatePicker
         v-model="date"
         id="date"
@@ -49,7 +49,7 @@ export default {
   data() {
     return {
       name: CommentsStore.getters.selectedComment?.name || "",
-      message: CommentsStore.getters.selectedComment?.message || "",
+      text: CommentsStore.getters.selectedComment?.text || "",
       date: CommentsStore.getters.selectedComment?.date || "",
     };
   },
@@ -62,44 +62,18 @@ export default {
 
   watch: {
     name(newValue) {
-      if (!CommentsStore.getters.selectedComment) {
-        console.log("set new");
-        CommentsStore.dispatch("setSelectedComment", {
-          name: "",
-          message: "",
-          date: "",
-        });
-        console.log(CommentsStore.getters.selectedComment);
-      }
-
       CommentsStore.dispatch("updateSelectedComment", {
         name: newValue,
       });
     },
 
-    message(newValue) {
-      if (!CommentsStore.getters.selectedComment) {
-        CommentsStore.dispatch("setSelectedComment", {
-          name: "",
-          message: "",
-          date: "",
-        });
-      }
-
+    text(newValue) {
       CommentsStore.dispatch("updateSelectedComment", {
-        message: newValue,
+        text: newValue,
       });
     },
 
     date(newValue) {
-      if (!CommentsStore.getters.selectedComment) {
-        CommentsStore.dispatch("setSelectedComment", {
-          name: "",
-          message: "",
-          date: "",
-        });
-      }
-
       CommentsStore.dispatch("updateSelectedComment", {
         date: newValue,
       });
@@ -114,5 +88,22 @@ export default {
   border-radius: 8px;
   width: 100%;
   padding: 12px;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.comment-form__label {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 40vw;
+}
+
+.comment-form__text {
+  resize: none;
+  overflow-y: scroll;
 }
 </style>

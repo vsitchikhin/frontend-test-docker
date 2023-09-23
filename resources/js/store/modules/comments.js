@@ -61,8 +61,6 @@ export default {
 
     SET_COMMENT_PAYLOAD(state, payload) {
       state.selectedComment = payload;
-      console.log(payload);
-      console.log(state.selectedComment)
     },
 
     UPDATE_CURRENT_COMMENT(state, data) {
@@ -119,22 +117,21 @@ export default {
     },
 
     async createComment(ctx) {
-      console.log(ctx.getters.selectedComment);
-      // try {
-      //   const { data, error } = await axios.post(`${ctx.state.baseUrl}/api/comments`, {
-      //     body: ctx.getters.selectedComment,
-      //   });
+      try {
+        const { data, error } = await axios.post(`${ctx.state.baseUrl}/api/comments`, {
+          ...ctx.getters.selectedComment
+        });
 
-      //   if (error) {
-      //     throw new Error(error);
-      //   }
+        if (error) {
+          throw new Error(error);
+        }
 
-      //   if (data) {
-      //     await ctx.dispatch('loadComments');
-      //   }
-      // } catch (e) {
-      //   throw new Error(e)
-      // }
+        if (data) {
+          await ctx.dispatch('loadComments');
+        }
+      } catch (e) {
+        throw new Error(e)
+      }
     },
 
     async patchComment(ctx, id) {
@@ -188,12 +185,23 @@ export default {
     },
 
     setSelectedComment(ctx, comment) {
-      console.log(comment);
       ctx.commit('SET_COMMENT_PAYLOAD', comment)
     },
 
     updateSelectedComment(ctx, comment) {
+      if (!ctx.getters.selectedComment) {
+        ctx.dispatch("setSelectedComment", {
+          name: "",
+          text: "",
+          date: "",
+        });
+      }
+
       ctx.commit('UPDATE_CURRENT_COMMENT', comment);
     },
+
+    commentValidate(ctx, comment) {
+      // todo: валидация коммента (все поля должны быть заполнены!)
+    }
   },
 }
