@@ -65,18 +65,25 @@ export default {
       CommentsStore.dispatch("updateSelectedComment", {
         name: newValue,
       });
+      CommentsStore.dispatch("errorMessage", "");
     },
 
     text(newValue) {
       CommentsStore.dispatch("updateSelectedComment", {
         text: newValue,
       });
+      CommentsStore.dispatch("errorMessage", "");
     },
 
     date(newValue) {
       CommentsStore.dispatch("updateSelectedComment", {
         date: newValue,
       });
+      CommentsStore.dispatch("errorMessage", "");
+    },
+
+    message(newValue) {
+      console.log(newValue);
     },
   },
 };

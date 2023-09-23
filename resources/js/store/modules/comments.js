@@ -24,7 +24,6 @@ export default {
 
     qtyPages: state => Math.ceil(state.comments?.length / state.qtyPerPage),
     baseUrl: state => state.baseUrl,
-    // todo: вернуть комменты для текущей страницы
   },
 
   state: {
@@ -80,7 +79,7 @@ export default {
 
     SET_PAGE_NUMBER(state, number) {
       state.pageNumber = number
-    }
+    },
   },
 
   actions: {
@@ -117,6 +116,12 @@ export default {
     },
 
     async createComment(ctx) {
+      const isValid = ctx.dispatch('commentValidate', ctx.getters.selectedComment);
+
+      if (isValid !== true) {
+        throw new Error('Необходимо ввести значения перед отправкой');
+      }
+
       try {
         const { data, error } = await axios.post(`${ctx.state.baseUrl}/api/comments`, {
           ...ctx.getters.selectedComment
@@ -201,7 +206,14 @@ export default {
     },
 
     commentValidate(ctx, comment) {
-      // todo: валидация коммента (все поля должны быть заполнены!)
+      if (!comment || !comment.name || !comment.text || !comment.date) {
+        return 'Необходимо ввести данные';
+      }
+      return true;
+    },
+
+    gotoPage(ctx, number) {
+      ctx.commit('SET_PAGE_NUMBER', number)
     }
   },
 }

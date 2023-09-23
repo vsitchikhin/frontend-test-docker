@@ -5,7 +5,7 @@
       <SortSelect />
     </div>
     <CommentsList />
-    <!-- * pagination -->
+    <PaginationList />
     <CommentForm />
   </div>
 </template>
@@ -13,6 +13,7 @@
 <script>
 import CommentForm from "../components/CommentForm/CommentForm.vue";
 import CommentsList from "../components/CommentsList/CommentsList";
+import PaginationList from "../components/PaginationList/PaginationList.vue";
 import SortDirectionButtons from "../components/SortDirectionButtons/SortDirectionButtons.vue";
 import SortSelect from "../components/SortSelect/SortSelect.vue";
 import { CommentsStore } from "../store/CommentsStore";
@@ -24,6 +25,7 @@ export default {
     SortDirectionButtons,
     SortSelect,
     CommentForm,
+    PaginationList,
   },
   data() {
     return {};
