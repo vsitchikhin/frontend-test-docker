@@ -9,9 +9,9 @@ export function sortComments(comments, sort, direction) {
     }
   } else if (sort === CommentsStore.getters.sorts.DATE) {
     if (direction === CommentsStore.getters.directions.ASC) {
-      return comments.sort((a, b) => a.date - b.date)
+      return comments.sort((a, b) => new Date(a.date) - new Date(b.date))
     } else {
-      return comments.sort((a, b) => b.date - a.date)
+      return comments.sort((a, b) => new Date(b.date) - new Date(a.date))
     }
   } else {
     return comments;

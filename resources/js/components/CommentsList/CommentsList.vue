@@ -13,12 +13,6 @@
         >
           Удалить
         </button>
-        <button
-          class="comments-list__button"
-          @click.prevent="patchComment(item.id)"
-        >
-          Редактировать
-        </button>
       </div>
     </div>
   </div>
@@ -33,10 +27,38 @@ export default {
 
   components: { CommentCard },
 
+  // data() {
+  //   return {
+  //     comments: CommentsStore.getters.commentsForPage,
+  //   };
+  // },
+
   computed: {
-    pageNumber: () => CommentsStore.getters.pageNumber,
-    comments: () => CommentsStore.getters.commentsForPage,
+    pageNumber() {
+      return CommentsStore.getters.pageNumber;
+    },
+    comments() {
+      return CommentsStore.getters.commentsForPage;
+    },
+    // selectedSort() {
+    //   return CommentsStore.getters.selectedSort;
+    // },
+    // selectedDirection() {
+    //   return CommentsStore.getters.selectedDirection;
+    // },
   },
+
+  // watch: {
+  //   selectedSort(newValue) {
+  //     this.comments = CommentsStore.getters.commentsForPage;
+  //     console.log(newValue);
+  //   },
+
+  //   selectedDirection(newValue) {
+  //     this.comments = CommentsStore.getters.commentsForPage;
+  //     console.log(newValue);
+  //   },
+  // },
 
   methods: {
     async deleteComment(id) {

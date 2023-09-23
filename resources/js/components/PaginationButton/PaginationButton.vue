@@ -1,5 +1,5 @@
 <template>
-  <div class="pagination-button" @click="changePage">
+  <div class="pagination-button" :class="getButtonClass" @click="changePage">
     <div class="pagination-button__button">
       {{ pageNumber }}
     </div>
@@ -16,6 +16,12 @@ export default {
     changePage() {
       CommentsStore.dispatch("gotoPage", this.pageNumber);
     },
+
+    getButtonClass() {
+      if (CommentsStore.getters.pageNumber === this.pageNumber) {
+        return "pagination-button--active";
+      }
+    },
   },
 };
 </script>
@@ -26,12 +32,18 @@ export default {
   border-radius: 8px;
   border: 1px solid black;
   background-color: grey;
+  color: white;
   cursor: pointer;
   transition: opacity 0.3s;
 }
+
 .pagination-button:hover {
   opacity: 0.7;
   transition: opacity 0.3s;
+}
+
+.pagination-button--active {
+  background-color: green;
 }
 
 .pagination-button__button {

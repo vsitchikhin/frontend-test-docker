@@ -8,7 +8,7 @@ export default {
       // копирование массива комментариев
       let commentsCopy = JSON.parse(JSON.stringify(state.comments));
 
-      commentsCopy = sortComments(commentsCopy, state.sort, state.direction);
+      commentsCopy = sortComments(commentsCopy, state.selectedSort, state.selectedDirection);
 
       const startIndex = (state.pageNumber - 1) * state.qtyPerPage;
       return commentsCopy?.slice(startIndex, startIndex + state.qtyPerPage);
@@ -101,7 +101,7 @@ export default {
 
     async loadComment(ctx, id) {
       try {
-        const { data, error } = await axios.get(`${ctx.state.baseUrl}/api/comment/${id}`);
+        const { data, error } = await axios.get(`${ctx.state.baseUrl}/api/comments/${id}`);
 
         if (error) {
           throw new Error(error);
@@ -116,12 +116,6 @@ export default {
     },
 
     async createComment(ctx) {
-      const isValid = ctx.dispatch('commentValidate', ctx.getters.selectedComment);
-
-      if (isValid !== true) {
-        throw new Error('Необходимо ввести значения перед отправкой');
-      }
-
       try {
         const { data, error } = await axios.post(`${ctx.state.baseUrl}/api/comments`, {
           ...ctx.getters.selectedComment
@@ -141,7 +135,7 @@ export default {
 
     async patchComment(ctx, id) {
       try {
-        const { data, error } = await axios.patch(`${ctx.state.baseUrl}/api/comment/${id}`, {
+        const { data, error } = await axios.patch(`${ctx.state.baseUrl}/api/comments/${id}`, {
           body: ctx.getters.selectedComment,
         });
 
@@ -159,7 +153,7 @@ export default {
 
     async deleteComment(ctx, id) {
       try {
-        const { data, error } = await axios.delete(`${ctx.state.baseUrl}/api/comment/${id}`);
+        const { data, error } = await axios.delete(`${ctx.state.baseUrl}/api/comments/${id}`);
 
         if (error) {
           throw new Error(error)
