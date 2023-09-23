@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <CommentsPage />
   </div>
 </template>
@@ -10,9 +10,14 @@ const default_layout = "default";
 
 export default {
   components: { CommentsPage },
-  computed: {},
-  data() {
-    return {};
-  },
 };
 </script>
+
+<style scoped>
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 40px 0;
+}
+</style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="comment-card">
+  <div v-show="isShowComments" class="comment-card">
     <div class="comment-card__text-container">
       <div class="comment-card__text">Имя</div>
       <div class="comment-card__text">{{ comment?.name }}</div>

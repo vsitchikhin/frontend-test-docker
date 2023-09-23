@@ -15,7 +15,7 @@ export default {
     },
 
     selectedSort: state => state.selectedSort,
-    selectedDirection: state => selectedDirection,
+    selectedDirection: state => state.selectedDirection,
     pageNumber: state => state.pageNumber,
 
     sorts: state => state.sorts,
@@ -31,14 +31,20 @@ export default {
     comments: null,
     selectedComment: null,
 
-    // selectedSort: this.sorts.ID,
-    // selectedDirection: this.directions.ASC,
+    selectedSort: null,
+    selectedDirection: null,
     baseUrl: 'http://localhost:80',
     pageNumber: 1,
 
     sorts: {
-      DATE: 'date',
-      ID: 'id',
+      DATE: {
+        code: 'date',
+        label: 'По дате',
+      },
+      ID: {
+        code: 'id',
+        label: 'По id',
+      },
     },
     directions: {
       ASC: 'asc',
@@ -55,14 +61,11 @@ export default {
 
     SET_COMMENT_PAYLOAD(state, payload) {
       state.selectedComment = payload;
+      console.log(payload);
+      console.log(state.selectedComment)
     },
 
     UPDATE_CURRENT_COMMENT(state, data) {
-      if (!state.selectedComment) {
-        state.selectedComment = data;
-        return;
-      }
-
       state.selectedComment = {
         ...state.selectedComment,
         ...data,
@@ -85,14 +88,13 @@ export default {
   actions: {
     async loadComments(ctx) {
       try {
-        const { data, error } = await axios.get(`http://localhost:80/api/comments`);
+        const { data, error } = await axios.get(`${ctx.state.baseUrl}/api/comments`);
 
         if (error) {
           throw new Error(error);
         }
 
         if (data) {
-          console.log(data);
           ctx.commit('SET_COMMENTS_PAYLOAD', data);
         }
       } catch (e) {
@@ -102,7 +104,7 @@ export default {
 
     async loadComment(ctx, id) {
       try {
-        const { data, error } = await axios.get(`${this.baseUrl}/api/comment/${id}`);
+        const { data, error } = await axios.get(`${ctx.state.baseUrl}/api/comment/${id}`);
 
         if (error) {
           throw new Error(error);
@@ -116,28 +118,29 @@ export default {
       }
     },
 
-    async createComment(ctx, id) {
-      try {
-        const { data, error } = await axios.post(`${this.baseUrl}/api/comment/${id}`, {
-          body: ctx.getters.currentComment,
-        });
+    async createComment(ctx) {
+      console.log(ctx.getters.selectedComment);
+      // try {
+      //   const { data, error } = await axios.post(`${ctx.state.baseUrl}/api/comments`, {
+      //     body: ctx.getters.selectedComment,
+      //   });
 
-        if (error) {
-          throw new Error(error);
-        }
+      //   if (error) {
+      //     throw new Error(error);
+      //   }
 
-        if (data) {
-          await ctx.dispatch('loadComments');
-        }
-      } catch (e) {
-        throw new Error(e)
-      }
+      //   if (data) {
+      //     await ctx.dispatch('loadComments');
+      //   }
+      // } catch (e) {
+      //   throw new Error(e)
+      // }
     },
 
     async patchComment(ctx, id) {
       try {
-        const { data, error } = await axios.patch(`${this.baseUrl}/api/comment/${id}`, {
-          body: ctx.getters.currentComment,
+        const { data, error } = await axios.patch(`${ctx.state.baseUrl}/api/comment/${id}`, {
+          body: ctx.getters.selectedComment,
         });
 
         if (error) {
@@ -154,7 +157,7 @@ export default {
 
     async deleteComment(ctx, id) {
       try {
-        const { data, error } = await axios.delete(`${this.baseUrl}/api/comment/${id}`);
+        const { data, error } = await axios.delete(`${ctx.state.baseUrl}/api/comment/${id}`);
 
         if (error) {
           throw new Error(error)
@@ -169,15 +172,28 @@ export default {
     },
 
     changeSelectedSort(ctx, sort) {
-      ctx.getters.selectedSort = sort;
+      if (sort === ctx.getters.sorts.ID.code) {
+        ctx.commit('SET_SELECTED_SORT', ctx.getters.sorts.ID)
+      } else {
+        ctx.commit('SET_SELECTED_SORT', ctx.getters.sorts.DATE)
+      }
     },
 
     changeSelectedDirection(ctx, direction) {
-      ctx.getters.selectedDirection = direction;
+      if (direction === ctx.getters.directions.DESC) {
+        ctx.commit('SET_SELECTED_DIRECTION', ctx.getters.directions.DESC)
+      } else {
+        ctx.commit('SET_SELECTED_DIRECTION', ctx.getters.directions.ASC)
+      }
     },
 
     setSelectedComment(ctx, comment) {
+      console.log(comment);
       ctx.commit('SET_COMMENT_PAYLOAD', comment)
+    },
+
+    updateSelectedComment(ctx, comment) {
+      ctx.commit('UPDATE_CURRENT_COMMENT', comment);
     },
   },
 }

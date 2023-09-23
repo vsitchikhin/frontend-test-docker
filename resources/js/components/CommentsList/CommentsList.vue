@@ -29,10 +29,6 @@ export default {
 
   components: { CommentCard },
 
-  data() {
-    return {};
-  },
-
   computed: {
     pageNumber: () => CommentsStore.getters.pageNumber,
     comments: () => CommentsStore.getters.commentsForPage,
@@ -83,5 +79,12 @@ export default {
 
 .comments-list__button {
   padding: 8px;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.comments-list__button:hover {
+  opacity: 0.7;
+  transition: opacity 0.3s;
 }
 </style>
